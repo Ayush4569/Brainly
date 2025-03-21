@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 dotenv.config({ path: './.env' })
-import express,{Request,Response,NextFunction} from 'express'
-import {  } from './models/user.model';
+import express,{Request,Response} from 'express'
+import { User } from './models/user.model';
 
 
 const app = express();
@@ -9,7 +9,7 @@ app.use(express.json({ limit: '16kb' }))
 
 // routes
 
-app.post("/api/v1/signup", async (req:Request, res:Response,next:NextFunction) => {
+app.post("/api/v1/signup", async (req:Request, res:Response) => {
     const { username, password } = req.body;
     try {
         const isUserExist = await User.findOne({ username })
@@ -23,7 +23,6 @@ app.post("/api/v1/signup", async (req:Request, res:Response,next:NextFunction) =
         return res.status(400).json("user signup failed")
     } catch (error) {
         console.log(error);
-        next(error)
         return res.status(500).json("Internal server error")
     }
 })
